@@ -4,8 +4,11 @@ import com.tutos.mappings.entities.Course;
 import com.tutos.mappings.entities.Instructor;
 import com.tutos.mappings.entities.InstructorDetails;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
+
+import java.util.List;
 
 @Repository
 public class AppDaoImpl implements AppDao {
@@ -48,5 +51,24 @@ public class AppDaoImpl implements AppDao {
         InstructorDetails details = findDetailsById(id);
         details.getInstructor().setInstructorDetails(null);
         this.entityManager.remove(details);
+    }
+
+    @Override
+    public List<Course> findCoursesByInstructorId(int id) {
+        TypedQuery<Course> query = this.entityManager.
+                createQuery("from Course where instructor.id = :data", Course.class);
+        query.setParameter("data", id);
+        return query.getResultList();
+    }
+
+    @Override
+    public Instructor findByIdJoinFetch(int id) {
+        TypedQuery<Instructor> query = this.entityManager
+                .createQuery("select i from Instructor i " +
+                        "JOIN FETCH i.courses " +
+                        "JOIN FETCH i.instructorDetails" +
+                        "where i.id = :data ", Instructor.class);
+        query.setParameter("data", id);
+        return query.getSingleResult();
     }
 }

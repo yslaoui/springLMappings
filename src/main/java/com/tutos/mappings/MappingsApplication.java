@@ -10,6 +10,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 @SpringBootApplication
@@ -25,11 +26,35 @@ public class MappingsApplication {
 		return runner -> {
 //			createInstructor(dao);
 //			findInstructor(dao);
-			deleteInstructor(dao);
+//			deleteInstructor(dao);
 //			findDetails(dao);
 //			removeDetails(dao);
 //			createInstructorWithCourse(dao);
+//			findInstructorWithCoursesById(dao);
+//			findInstructorWithCoursesByIdQueryCourse(dao);
+			findInstructorWithCoursesByIdQueryJoinFetch(dao);
 		};
+	}
+
+	public void findInstructorWithCoursesByIdQueryJoinFetch(AppDao dao) {
+		int id = 1;
+		Instructor instructor = dao.findByIdJoinFetch(id);
+		System.out.println(instructor.getCourses());
+	}
+
+	public void findInstructorWithCoursesByIdQueryCourse(AppDao dao) {
+		int id = 1;
+		Instructor instructor = dao.findById(id);
+		List<Course> courses = dao.findCoursesByInstructorId(id);
+		instructor.setCourses(courses);
+		System.out.println(instructor.getCourses());
+	}
+
+	public void findInstructorWithCoursesById(AppDao dao) {
+		int id = 1;
+		Instructor instructor = dao.findById(id);
+//		System.out.println(instructor.getInstructorDetails());
+		System.out.println(instructor.getCourses());
 	}
 
 	public void createInstructor(AppDao dao) {
@@ -48,8 +73,8 @@ public class MappingsApplication {
 	}
 
 	public void deleteInstructor(AppDao dao) {
-		int theId =1;
-		dao.deleteById(1);
+		int theId =3;
+		dao.deleteById(theId);
 	}
 
 	public void findDetails(AppDao dao) {
@@ -70,6 +95,7 @@ public class MappingsApplication {
 		Course tango = new Course("tango");
 		instructor.add(music);
 		instructor.add(tango);
+		InstructorDetails details = new InstructorDetails("iglesias.youtube.com", "femmes");
 		dao.save(instructor);
 	}
 }
