@@ -8,6 +8,7 @@ SET FOREIGN_KEY_CHECKS = 0;
 
 DROP TABLE IF EXISTS `instructor_detail`;
 
+
 CREATE TABLE `instructor_detail` (
   `id` int NOT NULL AUTO_INCREMENT,
   `youtube_channel` varchar(128) DEFAULT NULL,

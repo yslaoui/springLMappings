@@ -26,14 +26,32 @@ public class MappingsApplication {
 		return runner -> {
 //			createInstructor(dao);
 //			findInstructor(dao);
-//			deleteInstructor(dao);
+			deleteInstructor(dao);
 //			findDetails(dao);
 //			removeDetails(dao);
+
 //			createInstructorWithCourse(dao);
 //			findInstructorWithCoursesById(dao);
 //			findInstructorWithCoursesByIdQueryCourse(dao);
-			findInstructorWithCoursesByIdQueryJoinFetch(dao);
+//			findInstructorWithCoursesByIdQueryJoinFetch(dao);
+//			updateInstructorFirstName(dao);
+//			updateCourseTitle(dao);
+
 		};
+	}
+
+	private void updateCourseTitle(AppDao dao) {
+		int id = 11;
+		Course course = dao.findByCourseId(id);
+		course.setTitle("salsa");
+		dao.update(course);
+	}
+
+	private void updateInstructorFirstName(AppDao dao) {
+		int id = 1;
+		Instructor instructor = dao.findById(id);
+		instructor.setFirstName("Angelica");
+		dao.update(instructor);
 	}
 
 	public void findInstructorWithCoursesByIdQueryJoinFetch(AppDao dao) {
@@ -73,7 +91,7 @@ public class MappingsApplication {
 	}
 
 	public void deleteInstructor(AppDao dao) {
-		int theId =3;
+		int theId =1;
 		dao.deleteById(theId);
 	}
 
