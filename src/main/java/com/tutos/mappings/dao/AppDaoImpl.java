@@ -90,4 +90,21 @@ public class AppDaoImpl implements AppDao {
         this.entityManager.merge(course);
     }
 
+    @Override
+    @Transactional
+    public void save(Course course) {
+        this.entityManager.persist(course);
+    }
+
+    @Override
+    @Transactional
+    public void deleteCourseById(int id) {
+        Course course = findByCourseId(id);
+        this.entityManager.remove(course);
+    }
+
+
+
+
+
 }

@@ -4,6 +4,7 @@ import com.tutos.mappings.dao.AppDao;
 import com.tutos.mappings.entities.Course;
 import com.tutos.mappings.entities.Instructor;
 import com.tutos.mappings.entities.InstructorDetails;
+import com.tutos.mappings.entities.Review;
 import jakarta.persistence.criteria.CriteriaBuilder;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -26,18 +27,32 @@ public class MappingsApplication {
 		return runner -> {
 //			createInstructor(dao);
 //			findInstructor(dao);
-			deleteInstructor(dao);
+//			deleteInstructor(dao);
 //			findDetails(dao);
 //			removeDetails(dao);
-
 //			createInstructorWithCourse(dao);
 //			findInstructorWithCoursesById(dao);
 //			findInstructorWithCoursesByIdQueryCourse(dao);
 //			findInstructorWithCoursesByIdQueryJoinFetch(dao);
 //			updateInstructorFirstName(dao);
 //			updateCourseTitle(dao);
+//			createCourse(dao);
+			deleteCourse(dao);
 
 		};
+	}
+
+	private void deleteCourse(AppDao dao) {
+		int id = 10;
+		dao.deleteCourseById(id);
+	}
+
+	private void createCourse(AppDao dao) {
+		Course course = new Course("SVT");
+		course.add(new Review("I liked the course"));
+		course.add(new Review("The course is meuh"));
+		course.add(new Review("too slow"));
+		dao.save(course);
 	}
 
 	private void updateCourseTitle(AppDao dao) {
