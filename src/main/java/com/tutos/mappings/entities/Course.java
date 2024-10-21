@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.hibernate.annotations.ManyToAny;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,12 +32,22 @@ public class Course {
     @ToString.Exclude
     private List<Review> reviews;
 
+    @ManyToMany(fetch = FetchType.LAZY ,cascade = {CascadeType.DETACH, CascadeType.MERGE, CascadeType.PERSIST, CascadeType.REFRESH})
+    @JoinTable(
+            name = "course_student",
+            joinColumns = @JoinColumn(name="course_id"),
+            inverseJoinColumns = @JoinColumn(name="student_id")
+    )
+    private List<Student> students = new ArrayList<>();
+
+    public void add(Student student) {
+        this.students.add(student);
+    }
+
     public void add(Review review) {
-        if (this.reviews == null) {
-            this.reviews = new ArrayList<>();
-        }
         this.reviews.add(review);
     }
+
 
     public Course(String title) {
         this.title = title;
